@@ -39,15 +39,17 @@ function verifyCopyMatchesSource(sourceBytes: Buffer, copiedBytes: Buffer): void
   }
 }
 
-const sourcePath = new URL('./entry.png', import.meta.url);
-const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const outputPath = join(outputDir, 'entry.png');
+// The committed image sits beside this file; the destination is the
+// grader's output directory (or $MAKEFUN_OUTPUT_DIR outside the grader).
+const committedImagePath = new URL('./entry.png', import.meta.url);
+const destinationDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const destinationPath = join(destinationDir, 'entry.png');
 
-copyFileSync(sourcePath, outputPath);
+copyFileSync(committedImagePath, destinationPath);
 
-const sourceBytes = readFileSync(sourcePath);
-const copiedBytes = readFileSync(outputPath);
+const committedBytes = readFileSync(committedImagePath);
+const writtenBytes = readFileSync(destinationPath);
 
-verifyCopyMatchesSource(sourceBytes, copiedBytes);
+verifyCopyMatchesSource(committedBytes, writtenBytes);
 
-console.log(`entry.png written to ${outputPath}: ${copiedBytes.length} bytes, sha256 ${sha256Hex(copiedBytes)}`);
+console.log(`entry.png written to ${destinationPath}: ${writtenBytes.length} bytes, sha256 ${sha256Hex(writtenBytes)}`);

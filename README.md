@@ -25,7 +25,7 @@ Every story was checked, before the page was set, against the named source print
 
 ## Files
 
-- `main.ts` — the program (Node 22, standard library only, no network). It copies the committed `entry.png` into the output directory and verifies the copy byte-for-byte (length + SHA-256), failing loudly on any mismatch — so both grader runs write identical bytes by construction.
+- `main.ts` — the program (Node 22, standard library only, no network). It copies the committed `entry.png` into the output directory, then a small verification helper checks the copy byte-for-byte (length + SHA-256), failing loudly on any mismatch — so both grader runs write identical bytes by construction.
 - `render.py` — the renderer written fresh in this session (Pillow + DejaVu/Noto fonts, no network, no photographs). Re-running it reproduces `entry.png` byte-for-byte.
 - `entry.png` — the broadsheet image: PNG, 1024×1024, 201,408 bytes (limit 1,048,576), SHA-256 `494b831173f083abad65f1ae8fa9713fc063197eb9a23000f235d0c46fa9f345`.
 - `stories.md` — the builder's verification log: all 50 stories with their named sources.
