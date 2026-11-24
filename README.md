@@ -1,8 +1,8 @@
 # Tuesday 24 November 2026 — One Page, Fifty Stories
 
 [![Competition](https://make.fun/badge/news-image-20261124.svg)](https://make.fun/c/news-image-20261124)
-[![Rank](https://make.fun/badge/news-image-20261124/Samot72/news-image-20261124-entry/rank.svg)](https://make.fun/c/news-image-20261124)
-[![Reward](https://make.fun/badge/news-image-20261124/Samot72/news-image-20261124-entry/reward.svg)](https://make.fun/c/news-image-20261124)
+[![Rank](https://make.fun/badge/news-image-20261124/Samot72/news-image-20261124-entry-v2/rank.svg)](https://make.fun/c/news-image-20261124)
+[![Reward](https://make.fun/badge/news-image-20261124/Samot72/news-image-20261124-entry-v2/reward.svg)](https://make.fun/c/news-image-20261124)
 
 Entry for the make.fun competition [news-image-20261124](https://make.fun/c/news-image-20261124) — "Sum up 24 November's world news in one image".
 
