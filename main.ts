@@ -17,6 +17,28 @@ import { copyFileSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
+// SHA-256 of a byte buffer, as lowercase hex.
+function sha256Hex(bytes: Buffer): string {
+  return createHash('sha256').update(bytes).digest('hex');
+}
+
+// Fail loudly unless the copy is byte-for-byte identical to the source:
+// first the cheap length check, then the full SHA-256 comparison.
+function verifyCopyMatchesSource(sourceBytes: Buffer, copiedBytes: Buffer): void {
+  if (copiedBytes.length !== sourceBytes.length) {
+    throw new Error(
+      `entry.png copy length mismatch: source ${sourceBytes.length} bytes, copy ${copiedBytes.length} bytes`,
+    );
+  }
+
+  const sourceHash = sha256Hex(sourceBytes);
+  const copiedHash = sha256Hex(copiedBytes);
+
+  if (copiedHash !== sourceHash) {
+    throw new Error(`entry.png copy hash mismatch: source sha256 ${sourceHash}, copy sha256 ${copiedHash}`);
+  }
+}
+
 const sourcePath = new URL('./entry.png', import.meta.url);
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 const outputPath = join(outputDir, 'entry.png');
@@ -26,17 +48,6 @@ copyFileSync(sourcePath, outputPath);
 const sourceBytes = readFileSync(sourcePath);
 const copiedBytes = readFileSync(outputPath);
 
-if (copiedBytes.length !== sourceBytes.length) {
-  throw new Error(
-    `entry.png copy length mismatch: source ${sourceBytes.length} bytes, copy ${copiedBytes.length} bytes`,
-  );
-}
+verifyCopyMatchesSource(sourceBytes, copiedBytes);
 
-const sourceHash = createHash('sha256').update(sourceBytes).digest('hex');
-const copiedHash = createHash('sha256').update(copiedBytes).digest('hex');
-
-if (copiedHash !== sourceHash) {
-  throw new Error(`entry.png copy hash mismatch: source sha256 ${sourceHash}, copy sha256 ${copiedHash}`);
-}
-
-console.log(`entry.png written to ${outputPath}: ${copiedBytes.length} bytes, sha256 ${copiedHash}`);
+console.log(`entry.png written to ${outputPath}: ${copiedBytes.length} bytes, sha256 ${sha256Hex(copiedBytes)}`);
